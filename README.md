@@ -15,6 +15,9 @@ The session and JWT secrets are loaded from environment variables. Create an `.e
 ```shell
 SESSION_SECRET=12345asdflksdjfj
 JWT_SECRET=asldfkjsdlfk
+FACEBOOK_APP_ID=123456
+FACEBOOK_APP_SECRET=abc123
+FACEBOOK_CALLBACK_URL=http://127.0.0.1:3000/auth/facebook
 ```
 
 Password hashing modules often have a _native_ component: they're written in lower-level languages like C or C++ with a JavaScript _wrapper_. This means they can be trickier to install on some platforms. There are some instructions for how to obtain the necessary tools to build native modules [here](https://github.com/dev-academy-programme/orientation/tree/master/3-installation/node.md).
