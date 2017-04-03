@@ -26,7 +26,7 @@ app.use(session)
 app.use(flash())
 app.use(express.static('public'))
 // include the next line for client side, comment for server side
-// app.use(express.static('static'))
+app.use(express.static('static'))
 app.use(passport.initialize())
 app.use(passport.session())
 
