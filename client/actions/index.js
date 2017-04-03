@@ -38,9 +38,6 @@ function loginError(message) {
 // Calls the API to get a token and
 // dispatches actions along the way
 export function loginUser(creds) {
-
-
-
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
