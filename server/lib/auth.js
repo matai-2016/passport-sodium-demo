@@ -84,13 +84,14 @@ function facebookVerify (accessToken, refreshToken, profile, done) {
       if (result.length === 0) {
         // EITHER deny access OR add another user to the database.
         // In this case, we'll add them:
-        const newUser = users.createFacebook(profile)
+        return users.createFacebook(profile)
           .then(() => ({
             id: profile.id,
             username: profile.emails[0].value
           }))
-
-        return done(null, newUser)
+          .then((newUser) => {
+            return done(null, newUser)
+          })
       }
       const user = result[0]
       done(null, {
