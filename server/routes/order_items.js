@@ -24,9 +24,11 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   orderItems.deleteOrderItem(req.params.id)
-    .then(() => {
+    .then((number) => {
+      console.log(res.body)
       res.send({
-        message: 'Order item deleted'
+        message: 'Order item deleted',
+        rowsAffected: number
       })
     })
 })
