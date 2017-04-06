@@ -8,6 +8,8 @@ const session = require('./lib/session')
 
 // cookies
 const usersRoutes = require('./routes/users')
+const ordersRoutes = require('./routes/orders')
+const orderItemsRoutes = require('./routes/order_items')
 
 const app = express()
 
@@ -45,5 +47,7 @@ passport.serializeUser(users.serialize)
 passport.deserializeUser(users.deserialize)
 
 app.use('/users', usersRoutes) // this uses cookies!! -- example of server side
+app.use('/orders', ordersRoutes)
+app.use('/order_items', orderItemsRoutes)
 
 module.exports = app
