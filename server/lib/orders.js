@@ -3,15 +3,15 @@ const knex = require('knex')(config)
 
 module.exports = {
   getOrders,
-  createOrder
+  createOrder,
+  deleteOrder
 }
 
 function getOrders () {
   return knex('orders')
   .select('status', 'id', 'date', 'pickup_time', 'collector_id')
 }
-// BROOOOOOOOOKEN    RETURNS []
-// ADD ORDER_ITEMS.COMMENTS
+
 function createOrder (newOrder) {
   return knex('orders')
     .insert(newOrder)
@@ -23,4 +23,8 @@ function createOrder (newOrder) {
     })
 }
 
-//create automatic status
+function deleteOrder (id) {
+  return knex('orders')
+    .where('id', id)
+    .del()
+}

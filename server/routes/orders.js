@@ -28,10 +28,8 @@ router.get('/', (req, res) => {
           order_items: myOrderItems.filter(orderItem => orderItem.order_id === order.id)
         }
       })
-
       res.send(ordersToSend)
     })
-
 })
 
 router.post('/', (req, res) => {
@@ -46,6 +44,13 @@ router.post('/', (req, res) => {
         collector_id: order.collector_id,
         status: order.status
       })
+    })
+})
+
+router.delete('/:id', (req, res) => {
+  orders.deleteOrder(req.params.id)
+    .then(() => {
+      res.send({ message: 'No coffee for you then' })
     })
 })
 
