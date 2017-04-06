@@ -8,11 +8,7 @@ module.exports = {
 
 function getOrders () {
   return knex('orders')
-  .join('users', 'orders.collector_id', '=', 'users.id')
-  .join('order_items', 'orders.id', '=', 'order_items.order_id')
-  .select('orders.status', 'orders.id', 'orders.date', 'orders.pickup_time', 'order_items.id',
-    'order_items.type', 'order_items.modifiers', 'order_items.sugars', 'order_items.size',
-   'users.id', 'users.name', 'users.email', 'users.phone')
+  .select('status', 'id', 'date', 'pickup_time', 'collector_id')
 }
 // BROOOOOOOOOKEN    RETURNS []
 // ADD ORDER_ITEMS.COMMENTS
