@@ -49,8 +49,11 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   orders.deleteOrder(req.params.id)
-    .then(() => {
-      res.send({ message: 'No coffee for you then' })
+    .then((number) => {
+      res.send({
+        message: 'No coffee for you then',
+        rowsAffected: number
+        })
     })
 })
 
