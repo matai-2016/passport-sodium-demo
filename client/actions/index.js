@@ -2,7 +2,7 @@ import request from 'superagent'
 
 export function loginUser(creds) {
   return dispatch => {
-    return request.post('http://localhost:3000/users/login')
+    return request.post('/users/login')
       .set({ 'Content-Type':'application/json' })
       .send(creds)
       .end((err, res) =>  {
@@ -42,7 +42,7 @@ export function updateLoginForm(name, value) {
 export function logoutUser() {
   return dispatch => {
     return request
-      .get('http://localhost:3000/logout')
+      .get('/logout')
       .end((err, res) => {
         if (err) {
           return console.log(err.message)
@@ -66,7 +66,7 @@ export function processLogout(data) {
 // Uses the API middlware to get a quote
 export function fetchQuote() {
   return dispatch => {
-      request.get('http://localhost:3000/quotes/open')
+      request.get('/quotes/open')
       .end((err, res) => {
         if (err) {
           return console.log(err.message)
@@ -86,7 +86,7 @@ export function receiveQuote(quote) {
 
 export function fetchSecretQuote() {
   return dispatch => {
-      request.get('http://localhost:3000/quotes/secret')
+      request.get('/quotes/secret')
       .end((err, res) => {
         if (err) {
           return console.log(err.message)
