@@ -26,3 +26,5 @@ function createOrder (newOrder) {
         .select('id', 'date', 'status', 'pickup_time', 'collector_id')
     })
 }
+
+//create automatic status
