@@ -1,6 +1,6 @@
 # Express server with Passport local auth
 
-This demonstrates a fairly minimal username/password auth, making use of libsodium/Argon2i password hashing. There's also a tiny API to show how JWT might be used to secure it.
+This demonstrates a fairly minimal email/password auth, making use of libsodium/Argon2i password hashing. There's also a tiny API to show how JWT might be used to secure it.
 
 
 ## Install
@@ -23,7 +23,7 @@ To use the API, you'll first need to register a user with the web form. Then hit
 
 ```json
 { 
-  "username": "foo",
+  "email": "foo",
   "password": "bar"
 }
 ```
@@ -40,5 +40,5 @@ Notice the space between `Bearer` and the token. Compare the response to request
 
 ## Things to think about
 
-This demo omits plenty of things that a production system would have to care about. For example, how could we better validate the registration form? Right now a user can be created with username ' ' and password ' ': hardly ideal!
+This demo omits plenty of things that a production system would have to care about. For example, how could we better validate the registration form? Right now a user can be created with email ' ' and password ' ': hardly ideal!
 

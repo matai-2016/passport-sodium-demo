@@ -28,11 +28,11 @@ test('exists is falsy for gnu', t => {
 test('getById obtains correct user', t => {
   return users
     .getById(2, t.context.db)
-    .then(([ user ]) => t.is(user.username, 'capybara'))
+    .then(([ user ]) => t.is(user.email, 'capybara'))
 })
 
-test('getByName obtains correct user', t => {
+test('getByEmail obtains correct user', t => {
   return users
-    .getByName('aardvark', t.context.db)
+    .getByEmail('aardvark', t.context.db)
     .then(([ user ]) => t.is(user.id, 1))
 })

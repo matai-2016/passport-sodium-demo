@@ -1,7 +1,7 @@
 const initialState = {
   message: '',
   authenticated: false,
-  username: null,
+  email: null,
   id: null
 }
 

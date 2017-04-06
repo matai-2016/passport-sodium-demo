@@ -8,11 +8,12 @@ module.exports = {
   deserialize,
   exists,
   getById,
-  getByName,
-  serialize
+  getByEmail,
+  serialize,
+  getUsers
 }
 
-function create (username, password, testDb) {
+function create (name, email, password, phone, testDb) {
   const hash = sodium.crypto_pwhash_str(
     Buffer.from(password, 'utf8'),
     sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
@@ -22,16 +23,18 @@ function create (username, password, testDb) {
 
   return connection('users')
     .insert({
-      username: username,
-      hash: hash
+      name: name,
+      email: email,
+      hash: hash,
+      phone: phone
     })
 }
 
-function exists (username, testDb) {
+function exists (email, testDb) {
   const connection = testDb || knex
   return connection('users')
     .count('id as n')
-    .where('username', username)
+    .where('email', email)
     .then(count => {
       return count[0].n > 0
     })
@@ -40,15 +43,15 @@ function exists (username, testDb) {
 function getById (id, testDb) {
   const connection = testDb || knex
   return connection('users')
-    .select('id', 'username')
+    .select('id', 'email')
     .where('id', id)
 }
 
-function getByName (username, testDb) {
+function getByEmail (email, testDb) {
   const connection = testDb || knex
   return connection('users')
     .select()
-    .where('username', username)
+    .where('email', email)
 }
 
 function deserialize (id, done) {
@@ -64,4 +67,9 @@ function deserialize (id, done) {
 
 function serialize (user, done) {
   done(null, user.id)
+}
+
+function getUsers () {
+  return knex('users')
+  .select('id', 'name', 'email', 'phone')
 }

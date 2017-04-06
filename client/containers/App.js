@@ -30,7 +30,7 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   quote: PropTypes.string,
   authenticated: PropTypes.bool,
-  username: PropTypes.string,
+  email: PropTypes.string,
   id: PropTypes.number
 }
 
@@ -39,12 +39,12 @@ App.propTypes = {
 function mapStateToProps(state) {
 
   const { quote, auth } = state
-  const { authenticated, username, id } = auth
+  const { authenticated, email, id } = auth
 
   return {
     quote,
     authenticated,
-    username,
+    email,
     id
   }
 }
