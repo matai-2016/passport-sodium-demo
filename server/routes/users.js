@@ -14,16 +14,31 @@ router.get('/', (req, res) => {
 })
 
 router.post('/login',
-  passport.authenticate('local'),
-  (req, res) => {
-    res.send({
-      message: 'Authentication Successful',
-      authenticated: true,
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email,
-      phone: req.user.phone
-    })
+  function(req, res, next) {
+    passport.authenticate('local',
+    (err, user, info) => {
+      if (err) {
+        return next(err)
+      }
+      if (!user) {
+        return res.status(401).send({
+          message: 'Incorrect Username or Password'
+        })
+      }
+      req.logIn(user, function(err) {
+        if (err) {
+          return next(err)
+        }
+        return res.send({
+          message: 'Authentication Successful',
+          authenticated: true,
+          id: req.user.id,
+          name: req.user.name,
+          email: req.user.email,
+          phone: req.user.phone
+        })
+      })
+    })(req, res, next)
   }
 )
 

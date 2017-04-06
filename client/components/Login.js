@@ -1,15 +1,17 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export default class Login extends Component {
+import { loginUser, updateLoginForm } from '../actions'
 
-  render() {
-    const { errorMessage } = this.props
+class Login extends Component {
+  render () {
+    const errorMessage = this.props.message
 
     return (
       <div>
-        <input type='text' ref='email' className="form-control" placeholder='email'/>
-        <input type='password' ref='password' className="form-control" placeholder='Password'/>
-        <button onClick={(event) => this.handleClick(event)} className="btn btn-primary">
+        <input type='text' name='email' className='form-control' placeholder='email' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
+        <input type='password' name='password' className='form-control' placeholder='Password' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
+        <button onClick={(event) => this.handleClick(event)} className='btn btn-primary'>
           Login
         </button>
 
@@ -20,15 +22,30 @@ export default class Login extends Component {
     )
   }
 
-  handleClick(event) {
-    const email = this.refs.email
-    const password = this.refs.password
-    const creds = { email: email.value.trim(), password: password.value.trim() }
-    this.props.onLoginClick(creds)
+  handleClick (event) {
+    const email = this.props.email
+    const password = this.props.password
+    const creds = { email: email, password: password }
+    this.props.loginUser(creds)
   }
 }
 
-Login.propTypes = {
-  onLoginClick: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (creds) => {
+      dispatch(loginUser(creds))
+    },
+    updateLoginForm: (name, value) => {
+      dispatch(updateLoginForm(name, value))
+    }
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password,
+    message: state.auth.message
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

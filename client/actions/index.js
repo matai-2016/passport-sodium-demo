@@ -2,12 +2,13 @@ import request from 'superagent'
 
 export function loginUser(creds) {
   return dispatch => {
-    return request.post('http://localhost:3000/login')
+    return request.post('http://localhost:3000/users/login')
       .set({ 'Content-Type':'application/json' })
       .send(creds)
       .end((err, res) =>  {
         if (err) {
-          return console.log(err.message)
+          dispatch(failedLogin(res.body))
+          return console.error(err.message)
         }
         console.log(res.body)
         dispatch(receiveLogin(res.body))
@@ -19,6 +20,21 @@ export function receiveLogin(data) {
   return {
     type: 'RECEIVE_LOGIN',
     data
+  }
+}
+
+export function failedLogin(err) {
+  return {
+    type: 'FAILED_LOGIN',
+    err
+  }
+}
+
+export function updateLoginForm(name, value) {
+  return {
+    type: 'UPDATE_LOGIN_FORM',
+    name,
+    value
   }
 }
 
@@ -34,7 +50,7 @@ export function logoutUser() {
         console.log(res.body)
         dispatch(processLogout(res.body))
       })
-    
+
   }
 }
 

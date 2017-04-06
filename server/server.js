@@ -1,6 +1,7 @@
 const express = require('express')
 const LocalStrategy = require('passport-local')
 const passport = require('passport') // used to help us handle authentication and sessions
+const path = require('path')
 
 const sodium = require('sodium').api // used to hash and compare passwords
 const users = require('./lib/users')
@@ -24,20 +25,20 @@ passport.use(new LocalStrategy({
     users.getByEmail(email)
     .then(users => {
       if (users.length === 0) {
-        return done(null, false, { message: 'Unrecognised user.' })
+        return done(null, false)
       }
 
       const user = users[0]
 
       // compare user password to user hash in database
       if (!sodium.crypto_pwhash_str_verify(user.hash, Buffer.from(password, 'utf8'))) {
-        return done(null, false, { message: 'Incorrect email or password.' })
+        return done(null, false)
       }
 
       done(null, user)
     })
   .catch(err => {
-    done(err, false, { message: "Couldn't check your credentials with the database." })
+    done(err, false)
   })
   }))
 
@@ -45,5 +46,9 @@ passport.serializeUser(users.serialize)
 passport.deserializeUser(users.deserialize)
 
 app.use('/users', usersRoutes) // this uses cookies!! -- example of server side
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'))
+})
 
 module.exports = app
