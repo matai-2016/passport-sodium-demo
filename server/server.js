@@ -31,13 +31,10 @@ passport.use(new LocalStrategy({
 
       // compare user password to user hash in database
       if (!sodium.crypto_pwhash_str_verify(user.hash, Buffer.from(password, 'utf8'))) {
-        return done(null, false, { message: 'Incorrect password.' })
+        return done(null, false, { message: 'Incorrect email or password.' })
       }
 
-      done(null, {
-        id: user.id,
-        email: user.email
-      })
+      done(null, user)
     })
   .catch(err => {
     done(err, false, { message: "Couldn't check your credentials with the database." })
