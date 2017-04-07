@@ -25,7 +25,7 @@ class Home extends React.Component {
             </div>
           }
           {!authenticated &&
-            <div className='banner-container'>
+            <div className='loggin-buttons'>
               <Link to='/login'><button className='btn loginButton'>Login</button></Link>
               <Link to='/register'><button className='btn registerButton'>Register</button></Link>
             </div>
