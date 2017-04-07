@@ -27143,7 +27143,7 @@
 	          ),
 	          !authenticated && _react2.default.createElement(
 	            'div',
-	            { className: 'banner-container' },
+	            { className: 'loggin-buttons' },
 	            _react2.default.createElement(
 	              _reactRouterDom.Link,
 	              { to: '/login' },
