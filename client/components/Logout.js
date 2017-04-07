@@ -1,19 +1,36 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export default class Logout extends Component {
+import { logoutUser } from '../actions'
 
-  render() {
-    const { onLogoutClick } = this.props
-
+class Logout extends Component {
+  render () {
     return (
-      <button onClick={() => onLogoutClick()} className="btn btn-primary">
-        Logout
-      </button>
+      <div>
+        <button onClick={(event) => this.handleClick(event)} className='btn btn-primary'>
+          Logout
+        </button>
+      </div>
     )
   }
 
+  handleClick (event) {
+    this.props.logoutUser()
+  }
 }
 
-Logout.propTypes = {
-  onLogoutClick: PropTypes.func.isRequired
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: (creds) => {
+      return dispatch(logoutUser(creds))
+    }
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.authenticated
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)

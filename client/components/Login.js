@@ -26,14 +26,18 @@ class Login extends Component {
     const email = this.props.email
     const password = this.props.password
     const creds = { email: email, password: password }
-    this.props.loginUser(creds)
+    this.props.loginUser(creds).then(() => {
+      if (this.props.authenticated) {
+        this.props.history.push('/')
+      }
+    })
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (creds) => {
-      dispatch(loginUser(creds))
+      return dispatch(loginUser(creds))
     },
     updateLoginForm: (name, value) => {
       dispatch(updateLoginForm(name, value))
@@ -45,7 +49,8 @@ const mapStateToProps = (state) => {
   return {
     email: state.auth.email,
     password: state.auth.password,
-    message: state.auth.message
+    message: state.auth.message,
+    authenticated: state.auth.authenticated
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

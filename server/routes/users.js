@@ -13,6 +13,32 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/loggedin', (req, res) => {
+  if (req.user) {
+    console.log('user exists', req.user)
+    users.getById(req.user.id)
+    .then(function (users) {
+      const user = users[0]
+      res.send({
+        message: 'You are logged in',
+        authenticated: true,
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone
+      })
+      return
+    })
+  } else {
+    console.log('user doesnt exist')
+    res.send({
+      message: 'You are not logged in',
+      authenticated: false
+    })
+  }
+
+})
+
 router.post('/login',
   function(req, res, next) {
     passport.authenticate('local',

@@ -27064,45 +27064,99 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _reactRouterDom = __webpack_require__(208);
 	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _Logout = __webpack_require__(261);
+	
+	var _Logout2 = _interopRequireDefault(_Logout);
+	
+	var _actions = __webpack_require__(252);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Home = function Home(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h1',
-	      null,
-	      'Hello'
-	    ),
-	    _react2.default.createElement(
-	      _reactRouterDom.Link,
-	      { to: '/login' },
-	      _react2.default.createElement(
-	        'button',
-	        { className: 'loginButton' },
-	        'Login'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      _reactRouterDom.Link,
-	      { to: '/register' },
-	      _react2.default.createElement(
-	        'button',
-	        { className: 'registerButton' },
-	        'Register'
-	      )
-	    )
-	  );
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Home = function (_React$Component) {
+	  _inherits(Home, _React$Component);
+	
+	  function Home() {
+	    _classCallCheck(this, Home);
+	
+	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+	  }
+	
+	  _createClass(Home, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.loggedIn();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var authenticated = this.props.authenticated;
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        authenticated && _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Hello ',
+	          this.props.name
+	        ),
+	        !authenticated && _react2.default.createElement(
+	          _reactRouterDom.Link,
+	          { to: '/login' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'loginButton' },
+	            'Login'
+	          )
+	        ),
+	        authenticated && _react2.default.createElement(_Logout2.default, null),
+	        _react2.default.createElement(
+	          _reactRouterDom.Link,
+	          { to: '/register' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'registerButton' },
+	            'Register'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Home;
+	}(_react2.default.Component);
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    name: state.auth.name,
+	    authenticated: state.auth.authenticated
+	  };
 	};
 	
-	exports.default = Home;
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    loggedIn: function loggedIn() {
+	      return dispatch((0, _actions.loggedIn)());
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Home);
 
 /***/ },
 /* 250 */
@@ -27180,10 +27234,16 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(event) {
+	      var _this3 = this;
+	
 	      var email = this.props.email;
 	      var password = this.props.password;
 	      var creds = { email: email, password: password };
-	      this.props.loginUser(creds);
+	      this.props.loginUser(creds).then(function () {
+	        if (_this3.props.authenticated) {
+	          _this3.props.history.push('/');
+	        }
+	      });
 	    }
 	  }]);
 	
@@ -27193,7 +27253,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    loginUser: function loginUser(creds) {
-	      dispatch((0, _actions.loginUser)(creds));
+	      return dispatch((0, _actions.loginUser)(creds));
 	    },
 	    updateLoginForm: function updateLoginForm(name, value) {
 	      dispatch((0, _actions.updateLoginForm)(name, value));
@@ -27205,7 +27265,8 @@
 	  return {
 	    email: state.auth.email,
 	    password: state.auth.password,
-	    message: state.auth.message
+	    message: state.auth.message,
+	    authenticated: state.auth.authenticated
 	  };
 	};
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
@@ -27220,6 +27281,7 @@
 	  value: true
 	});
 	exports.loginUser = loginUser;
+	exports.loggedIn = loggedIn;
 	exports.receiveLogin = receiveLogin;
 	exports.failedLogin = failedLogin;
 	exports.updateLoginForm = updateLoginForm;
@@ -27237,13 +27299,23 @@
 	
 	function loginUser(creds) {
 	  return function (dispatch) {
-	    return _superagent2.default.post('/users/login').set({ 'Content-Type': 'application/json' }).send(creds).end(function (err, res) {
-	      if (err) {
-	        dispatch(failedLogin(res.body));
-	        return console.error(err.message);
-	      }
+	    return _superagent2.default.post('/users/login').set({ 'Content-Type': 'application/json' }).send(creds).then(function (res) {
 	      console.log(res.body);
 	      dispatch(receiveLogin(res.body));
+	    }).catch(function (err) {
+	      dispatch(failedLogin(err.response.body));
+	      return console.error(err.response.body);
+	    });
+	  };
+	}
+	
+	function loggedIn() {
+	  return function (dispatch) {
+	    return _superagent2.default.get('/users/loggedin').then(function (res) {
+	      dispatch(receiveLogin(res.body));
+	    }).catch(function (err) {
+	      dispatch(failedLogin(err.response.body));
+	      return console.error(err.response.body);
 	    });
 	  };
 	}
@@ -27273,12 +27345,11 @@
 	// Logs the user out
 	function logoutUser() {
 	  return function (dispatch) {
-	    return _superagent2.default.get('/logout').end(function (err, res) {
-	      if (err) {
-	        return console.log(err.message);
-	      }
+	    return _superagent2.default.get('/users/logout').then(function (res) {
 	      console.log(res.body);
 	      dispatch(processLogout(res.body));
+	    }).catch(function (err) {
+	      return console.error(err.response.body);
 	    });
 	  };
 	}
@@ -29316,7 +29387,7 @@
 /* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -29327,6 +29398,10 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _actions = __webpack_require__(252);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29346,30 +29421,47 @@
 	  }
 	
 	  _createClass(Logout, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
-	      var onLogoutClick = this.props.onLogoutClick;
-	
+	      var _this2 = this;
 	
 	      return _react2.default.createElement(
-	        "button",
-	        { onClick: function onClick() {
-	            return onLogoutClick();
-	          }, className: "btn btn-primary" },
-	        "Logout"
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: function onClick(event) {
+	              return _this2.handleClick(event);
+	            }, className: 'btn btn-primary' },
+	          'Logout'
+	        )
 	      );
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(event) {
+	      this.props.logoutUser();
 	    }
 	  }]);
 	
 	  return Logout;
 	}(_react.Component);
 	
-	exports.default = Logout;
-	
-	
-	Logout.propTypes = {
-	  onLogoutClick: _react.PropTypes.func.isRequired
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    logoutUser: function logoutUser(creds) {
+	      return dispatch((0, _actions.logoutUser)(creds));
+	    }
+	  };
 	};
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    authenticated: state.auth.authenticated
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Logout);
 
 /***/ }
 /******/ ]);

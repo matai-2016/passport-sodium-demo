@@ -5,13 +5,24 @@ export function loginUser(creds) {
     return request.post('/users/login')
       .set({ 'Content-Type':'application/json' })
       .send(creds)
-      .end((err, res) =>  {
-        if (err) {
-          dispatch(failedLogin(res.body))
-          return console.error(err.message)
-        }
+      .then((res) => {
         console.log(res.body)
         dispatch(receiveLogin(res.body))
+      }).catch(err => {
+        dispatch(failedLogin(err.response.body))
+        return console.error(err.response.body)
+      })
+  }
+}
+
+export function loggedIn (){
+  return dispatch => {
+    return request.get('/users/loggedin')
+      .then((res) => {
+        dispatch(receiveLogin(res.body))
+      }).catch(err => {
+        dispatch(failedLogin(err.response.body))
+        return console.error(err.response.body)
       })
   }
 }
@@ -39,22 +50,19 @@ export function updateLoginForm(name, value) {
 }
 
 // Logs the user out
-export function logoutUser() {
+export function logoutUser () {
   return dispatch => {
-    return request
-      .get('/logout')
-      .end((err, res) => {
-        if (err) {
-          return console.log(err.message)
-        }
+    return request.get('/users/logout')
+      .then((res) => {
         console.log(res.body)
         dispatch(processLogout(res.body))
+      }).catch(err => {
+        return console.error(err.response.body)
       })
-
   }
 }
 
-export function processLogout(data) {
+export function processLogout (data) {
   return {
     type: 'PROCESS_LOGOUT',
     data
