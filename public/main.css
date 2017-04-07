@@ -1,3 +1,29 @@
 * {
-  background-color: tomato;
+  background-color: #a9b4bc;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  font-family: 'Righteous', sans-serif;
+  color: white;
+  height: 50px;
+}
+
+footer {
+  background-image: url('/coffee.png');
+  background-size: cover;
+  height: 300px;
+}
+
+.form-control, .btn {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 7px;
+}
+
+.banner-container {
+  display: flex;
+  justify-content: space-between;
+  color: white;
 }

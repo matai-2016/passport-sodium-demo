@@ -2,8 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Logout from './Logout'
-import { loggedIn } from '../actions'
+import { loggedIn, logoutUser } from '../actions'
 
 class Home extends React.Component {
   componentWillMount () {
@@ -13,12 +12,26 @@ class Home extends React.Component {
     const authenticated = this.props.authenticated
     return (
       <div>
-        {authenticated && <h1>Hello {this.props.name}</h1>}
-        {!authenticated &&
-          <Link to='/login'><button className='loginButton'>Login</button></Link>
-        }
-        {authenticated && <Logout />}
-        <Link to='/register'><button className='registerButton'>Register</button></Link>
+        <header>
+          <h1>BeanGo</h1>
+        </header>
+        <div>
+          {authenticated &&
+            <div className='banner-container'>
+              <h5>Hello {this.props.name}</h5>
+              <button onClick={() => this.props.logoutUser()} className='btn btn-primary login-buttons'>
+                Logout
+              </button>
+            </div>
+          }
+          {!authenticated &&
+            <div className='banner-container'>
+              <Link to='/login'><button className='btn loginButton'>Login</button></Link>
+              <Link to='/register'><button className='btn registerButton'>Register</button></Link>
+            </div>
+          }
+        </div>
+        <footer>Hi</footer>
       </div>
     )
   }
@@ -35,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loggedIn: () => {
       return dispatch(loggedIn())
+    },
+    logoutUser: () => {
+      return dispatch(logoutUser())
     }
   }
 }

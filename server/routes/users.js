@@ -32,7 +32,7 @@ router.get('/loggedin', (req, res) => {
   } else {
     console.log('user doesnt exist')
     res.send({
-      message: 'You are not logged in',
+      message: '',
       authenticated: false
     })
   }
