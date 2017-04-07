@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
           id: order.id,
           date: order.date,
           pickupTime: order.pickup_time,
+          status: order.status,
           collector: myUsers
             .filter(user => user.id === order.collector_id)
             .map(user => {
@@ -53,7 +54,7 @@ router.delete('/:id', (req, res) => {
       res.send({
         message: 'No coffee for you then',
         rowsAffected: number
-        })
+      })
     })
 })
 

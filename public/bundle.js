@@ -26907,13 +26907,18 @@
 	
 	var _quote2 = _interopRequireDefault(_quote);
 	
+	var _orders = __webpack_require__(262);
+	
+	var _orders2 = _interopRequireDefault(_orders);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// We combine the reducers here so that they
 	// can be left split apart above
 	var quotesApp = (0, _redux.combineReducers)({
 	  auth: _auth2.default,
-	  quote: _quote2.default
+	  quote: _quote2.default,
+	  orders: _orders2.default
 	});
 	
 	exports.default = quotesApp;
@@ -27018,6 +27023,14 @@
 	
 	var _Logout2 = _interopRequireDefault(_Logout);
 	
+	var _Order = __webpack_require__(267);
+	
+	var _Order2 = _interopRequireDefault(_Order);
+	
+	var _OrderItems = __webpack_require__(268);
+	
+	var _OrderItems2 = _interopRequireDefault(_OrderItems);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27044,7 +27057,9 @@
 	        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _Home2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/logout', component: _Logout2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/register', component: _Register2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/register', component: _Register2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/order/:id', component: _Order2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/order_items/:id', component: _OrderItems2.default })
 	      );
 	    }
 	  }]);
@@ -27069,6 +27084,10 @@
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _reactRouterDom = __webpack_require__(208);
+	
+	var _OrderList = __webpack_require__(265);
+	
+	var _OrderList2 = _interopRequireDefault(_OrderList);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -27098,7 +27117,8 @@
 	        { className: 'registerButton' },
 	        'Register'
 	      )
-	    )
+	    ),
+	    _react2.default.createElement(_OrderList2.default, null)
 	  );
 	};
 	
@@ -29370,6 +29390,460 @@
 	Logout.propTypes = {
 	  onLogoutClick: _react.PropTypes.func.isRequired
 	};
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = orders;
+	var initialState = [];
+	
+	function orders() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'RECEIVE_ORDERS':
+	      return action.orders;
+	    case 'DELETE_ORDER':
+	      return action.id;
+	    case 'RECEIVE_ORDER_ITEMS':
+	      return action.orderItems;
+	    case 'DELETE_ORDER_ITEM':
+	      return action.id;
+	    default:
+	      return state;
+	  }
+	}
+
+/***/ },
+/* 263 */,
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getOrders = getOrders;
+	exports.receiveOrders = receiveOrders;
+	exports.deleteOrder = deleteOrder;
+	exports.orderDeleted = orderDeleted;
+	exports.getOrderItems = getOrderItems;
+	exports.receiveOrderItems = receiveOrderItems;
+	
+	var _superagent = __webpack_require__(253);
+	
+	var _superagent2 = _interopRequireDefault(_superagent);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function getOrders() {
+	  return function (dispatch) {
+	    return _superagent2.default.get('/orders').end(function (err, res) {
+	      if (err) {
+	        return console.error(err.message, 'Receive Orders failed');
+	      }
+	      dispatch(receiveOrders(res.body));
+	    });
+	  };
+	}
+	
+	function receiveOrders(orders) {
+	  return {
+	    type: 'RECEIVE_ORDERS',
+	    orders: orders
+	  };
+	}
+	
+	function deleteOrder(id) {
+	  return function (dispatch) {
+	    return _superagent2.default.delete('/orders/' + id).end(function (err, res) {
+	      if (err) {
+	        return console.error(err.message, 'Delete Failed');
+	      }
+	      dispatch(orderDeleted(id));
+	    });
+	  };
+	}
+	
+	function orderDeleted(id) {
+	  return {
+	    type: 'DELETE_ORDER',
+	    id: id
+	  };
+	}
+	
+	function getOrderItems() {
+	  return function (dispatch) {
+	    return _superagent2.default.get('/orders').end(function (err, res) {
+	      if (err) {
+	        return console.error(err.message, 'Receive Orders failed');
+	      }
+	      dispatch(receiveOrderItems(res.body));
+	    });
+	  };
+	}
+	
+	function receiveOrderItems(orderItems) {
+	  return {
+	    type: 'RECEIVE_ORDER_ITEMS',
+	    orderItems: orderItems
+	  };
+	}
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouterDom = __webpack_require__(208);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _orders = __webpack_require__(264);
+	
+	var _Order = __webpack_require__(267);
+	
+	var _Order2 = _interopRequireDefault(_Order);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var OrderList = function (_React$Component) {
+	  _inherits(OrderList, _React$Component);
+	
+	  function OrderList() {
+	    _classCallCheck(this, OrderList);
+	
+	    return _possibleConstructorReturn(this, (OrderList.__proto__ || Object.getPrototypeOf(OrderList)).apply(this, arguments));
+	  }
+	
+	  _createClass(OrderList, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.getOrders();
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(id) {
+	      this.props.deleteOrder(id);
+	      this.props.getOrders();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.props.orders.map(function (order, i) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'order', key: i },
+	            _react2.default.createElement(_Order2.default, {
+	              id: order.id,
+	              status: order.status,
+	              collectorId: order.collector_id,
+	              date: order.date,
+	              pickupTime: order.pickup_time
+	            }),
+	            _react2.default.createElement(
+	              _reactRouterDom.Link,
+	              { to: './order/{order.id}' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'view-order-button' },
+	                'View Order'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  _this2.handleClick(order.id);
+	                } },
+	              'Delete Order'
+	            )
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return OrderList;
+	}(_react2.default.Component);
+	
+	OrderList.propTypes = {
+	  orders: _react2.default.PropTypes.array,
+	  getOrders: _react2.default.PropTypes.func,
+	  deleteOrder: _react2.default.PropTypes.func
+	};
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    orders: state.orders
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getOrders: function getOrders() {
+	      dispatch((0, _orders.getOrders)());
+	    },
+	    deleteOrder: function deleteOrder(id) {
+	      dispatch((0, _orders.deleteOrder)(id));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(OrderList);
+
+/***/ },
+/* 266 */,
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouterDom = __webpack_require__(208);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Order = function Order(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: '.' },
+	    _react2.default.createElement(
+	      'h3',
+	      null,
+	      'Date: ',
+	      props.date
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'Pickup Time: ',
+	      props.pickupTime
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'Collector: ',
+	      props.collectorId
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'Status: ',
+	      props.status
+	    ),
+	    _react2.default.createElement(
+	      _reactRouterDom.Link,
+	      { to: '/order_items/{props.id}' },
+	      'View Order'
+	    )
+	  );
+	};
+	
+	exports.default = Order;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouterDom = __webpack_require__(208);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _orders = __webpack_require__(264);
+	
+	var _OrderItem = __webpack_require__(269);
+	
+	var _OrderItem2 = _interopRequireDefault(_OrderItem);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var OrderItems = function (_React$Component) {
+	  _inherits(OrderItems, _React$Component);
+	
+	  function OrderItems() {
+	    _classCallCheck(this, OrderItems);
+	
+	    return _possibleConstructorReturn(this, (OrderItems.__proto__ || Object.getPrototypeOf(OrderItems)).apply(this, arguments));
+	  }
+	
+	  _createClass(OrderItems, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.getOrders();
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(id) {
+	      this.props.deleteOrderItem(id);
+	      this.props.getOrderItems();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var order = {};
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'item' },
+	        (order = this.props.orders.filter(function (order) {
+	          return order.id === req.params.id;
+	        }), order.order_items.map(function (orderItem) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'orderItem' },
+	            _react2.default.createElement(_OrderItem2.default, {
+	              id: orderItem.id,
+	              type: orderItem.type,
+	              modifiers: orderItem.modifiers,
+	              sugars: orderItem.sugars,
+	              size: orderItem.size,
+	              comments: orderItem.comments
+	            }),
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  _this2.handleClick(orderItem.id);
+	                } },
+	              'Delete Coffee'
+	            )
+	          );
+	        }))
+	      );
+	    }
+	  }]);
+	
+	  return OrderItems;
+	}(_react2.default.Component);
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    orders: state.orders
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getOrderItems: function getOrderItems() {
+	      dispatch((0, _orders.getOrderItems)());
+	    },
+	    deleteOrderItem: function deleteOrderItem(id) {
+	      dispatch((0, _orders.deleteOrderItem)(id));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(OrderItems);
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouterDom = __webpack_require__(208);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var OrderItem = function OrderItem(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: '.' },
+	    _react2.default.createElement(
+	      'h3',
+	      null,
+	      'Type: ',
+	      props.type
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'Pickup Time: ',
+	      props.pickupTime
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'Collector: ',
+	      props.collectorId
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'Status: ',
+	      props.status
+	    ),
+	    _react2.default.createElement(
+	      _reactRouterDom.Link,
+	      { to: '/order_items/{props.id}' },
+	      'View Order'
+	    )
+	  );
+	};
+	
+	exports.default = OrderItem;
 
 /***/ }
 /******/ ]);
