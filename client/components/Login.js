@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { loginUser, updateLoginForm } from '../actions'
+import Header from './Header'
 
 class Login extends Component {
   render () {
@@ -10,6 +11,7 @@ class Login extends Component {
 
     return (
       <div>
+        <Header />
         <input type='text' name='email' className='form-control' placeholder='email' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
         <input type='password' name='password' className='form-control' placeholder='Password' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
         <button onClick={(event) => this.handleClick(event)} className='btn btn-primary'>

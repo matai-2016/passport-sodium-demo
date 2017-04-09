@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { registerUser, updateRegisterForm, setRegisterError } from '../actions'
+import Header from './Header'
 
 class Register extends Component {
   render () {
     return (
       <div>
+        <Header />
         <input type='text' name='name' className='form-control' placeholder='name' onChange={this.handleChange.bind(this)} /><br />
         <input type='text' name='email' className='form-control' placeholder='email' onChange={this.handleChange.bind(this)} /><br />
         <input type='text' name='phone' className='form-control' placeholder='phone' onChange={this.handleChange.bind(this)} /><br />
