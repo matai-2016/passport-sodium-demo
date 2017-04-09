@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { loginUser, updateLoginForm } from '../actions'
 
@@ -18,6 +19,7 @@ class Login extends Component {
         {this.props.message.includes('Incorrect') &&
           <p>{errorMessage}</p>
         }
+        <p>New to Bean-Go? Register <Link to='/register'>here</Link></p>
       </div>
     )
   }
