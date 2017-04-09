@@ -19,7 +19,7 @@ function createOrderItem (newOrderItem) {
       const id = result[0]
       return knex('order_items')
         .where('id', id)
-        .select('id', 'type', 'order_id', 'user_id', 'modifiers', 'sugars', 'size')
+        .select('id', 'type', 'order_id', 'user_id', 'modifiers', 'sugars', 'size', 'comments')
     })
 }
 

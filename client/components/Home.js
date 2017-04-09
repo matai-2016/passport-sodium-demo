@@ -1,8 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import { loggedIn, logoutUser } from '../actions'
+
+import OrderList from '../containers/OrderList'
 
 class Home extends React.Component {
   componentWillMount () {
@@ -31,6 +32,7 @@ class Home extends React.Component {
             </div>
           }
         </div>
+        <OrderList />
         <footer>Hi</footer>
       </div>
     )
