@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { registerUser, updateRegisterForm, setRegisterError } from '../actions'
 import Header from './Header'
+import Footer from './Footer'
 
 class Register extends Component {
   render () {
@@ -18,6 +19,7 @@ class Register extends Component {
           Submit
         </button>
         {this.props.registerErrorMessage && <p>{this.props.registerErrorMessage}</p>}
+        <Footer />
       </div>
     )
   }

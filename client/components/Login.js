@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { loginUser, updateLoginForm } from '../actions'
 import Header from './Header'
+import Footer from './Footer'
 
 class Login extends Component {
   render () {
@@ -22,6 +23,7 @@ class Login extends Component {
           <p>{errorMessage}</p>
         }
         <p>New to Bean-Go? Register <Link to='/register'>here</Link></p>
+        <Footer />
       </div>
     )
   }
