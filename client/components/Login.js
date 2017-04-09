@@ -15,7 +15,7 @@ class Login extends Component {
           Login
         </button>
 
-        {errorMessage &&
+        {this.props.message.includes('Incorrect') &&
           <p>{errorMessage}</p>
         }
       </div>

@@ -8,11 +8,9 @@ const OrderItem = (props) => {
       <p>Pickup Time: {props.pickupTime}</p>
       <p>Collector: {props.collectorId}</p>
       <p>Status: {props.status}</p>
-      <Link to='/order_items/{props.id}'>View Order</Link>
+      <Link to={`/order_items/${props.id}`}>View Order</Link>
     </div>
   )
 }
-
-
 
 export default (OrderItem)
