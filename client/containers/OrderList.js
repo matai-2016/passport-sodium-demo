@@ -25,11 +25,11 @@ class OrderList extends React.Component {
               <Order
                 id={order.id}
                 status={order.status}
-                collectorId={order.collector_id}
+                collectorId={order.collector.name}
                 date={order.date}
-                pickupTime={order.pickup_time}
+                pickupTime={order.pickupTime}
               />
-              <Link to='./order/{order.id}'><button className='view-order-button'>View Order</button></Link>
+              <Link to={`./order/${order.id}`}><button className='view-order-button'>View Order</button></Link>
               <button onClick={() => {
                 this.handleClick(order.id)
               }} >Delete Order</button>

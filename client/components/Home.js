@@ -32,8 +32,8 @@ class Home extends React.Component {
             </div>
           }
         </div>
-        <OrderList />
         <footer>Hi</footer>
+        <OrderList />
       </div>
     )
   }

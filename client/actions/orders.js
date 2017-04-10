@@ -59,3 +59,23 @@ export function receiveOrderItems (orderItems) {
     orderItems
   }
 }
+
+export function deleteOrderItem (id) {
+  return dispatch => {
+    return request
+      .delete(`/order_items/${id}`)
+      .end((err, res) => {
+        if (err) {
+          return console.error(err.message, 'Delete Coffee Failed')
+        }
+        dispatch(orderItemDeleted(id))
+      })
+  }
+}
+
+export function orderItemDeleted (id) {
+  return {
+    type: 'DELETE_ORDER_ITEM',
+    id
+  }
+}

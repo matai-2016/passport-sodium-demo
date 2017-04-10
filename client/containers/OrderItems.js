@@ -8,7 +8,7 @@ import OrderItem from '../components/OrderItem.js'
 
 class OrderItems extends React.Component {
   componentDidMount () {
-    this.props.getOrders()
+    this.props.getOrderItems()
   }
 
   handleClick (id) {
@@ -16,30 +16,27 @@ class OrderItems extends React.Component {
     this.props.getOrderItems()
   }
 
-  render() {
-    let order = {}
+  render () {
+    const order = this.props.orders.filter(order => order.id === Number(this.props.match.params.id))[0]
+    if (!order) {
+      return null
+    }
     return (
       <div className='item'>
-        {order = this.props.orders.filter((order) => {
+        {order.order_items.map((orderItem, i) => {
           return (
-            order.id === req.params.id
-          )
-        }),
-        order.order_items.map((orderItem) => {
-          return (
-            <div className='orderItem'>
+            <div className='orderItem' key={i}>
               <OrderItem
                 id={orderItem.id}
+                user={orderItem.user_id}
                 type={orderItem.type}
                 modifiers={orderItem.modifiers}
                 sugars={orderItem.sugars}
                 size={orderItem.size}
                 comments={orderItem.comments}
                 />
-                <button onClick={() => {
-                  this.handleClick(orderItem.id)
-                }} >Delete Coffee</button>
-          </div>
+              <button onClick={() => this.handleClick(orderItem.id)}>Delete Coffee</button>
+            </div>
           )
         })}
       </div>
