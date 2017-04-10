@@ -1,6 +1,6 @@
 const initialState = []
 
-function orders (state = initialState, action) {
+function forms (state = initialState, action) {
   switch (action.type) {
     case 'CONFIRM_ORDER':
       return {
@@ -23,9 +23,13 @@ function orders (state = initialState, action) {
         ...state,
         modifiers: newModifiers
       }
+    case 'UPDATE_ORDER_FIELD':
+      return {
+        ...state, [action.key]: action.value
+      }
     default:
       return state
   }
 }
 
-export default orders
+export default forms

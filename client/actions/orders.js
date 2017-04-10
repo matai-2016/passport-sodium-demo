@@ -99,3 +99,27 @@ export function receiveUsers (users) {
     users
   }
 }
+export function createOrder (date) {
+  return (dispatch, getState) => {
+    const order = getState().forms
+    order.date = date
+    request
+      .post('/orders')
+      .send(order)
+      .end((err, res) => {
+        if (err) {
+          console.error(err.message)
+          return
+        }
+        dispatch(getOrders())
+        dispatch(confirmOrder(res.body.id))
+      })
+  }
+}
+
+export function confirmOrder (id) {
+  return {
+    type: 'CONFIRM_ORDER',
+    id
+  }
+}

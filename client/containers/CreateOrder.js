@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { createOrder, getUsers } from '../actions/orders.js'
+import { updateOrderField } from '../actions/forms.js'
 
 const CreateOrder = React.createClass({
   componentDidMount () {
@@ -18,19 +19,27 @@ const CreateOrder = React.createClass({
           <h4>Collector: </h4>
           <select name='collector_id' onChange={this.updateOrderField} defaultValue='Select collector'>
             {this.props.users.map(user => {
-              return <option value={user.id}>{user.name}</option>
+              return <option key={user.id} value={user.id}>{user.name}</option>
             })}
           </select>
         </div>
-        <Link />
+        <Link to='/'><button onClick={this.handleClick}>Submit Order</button></Link>
       </div>
     )
+  },
+  handleClick () {
+    const today = new Date()
+    const dd = today.getDate()
+    const mm = today.getMonth() + 1
+    const yyyy = today.getFullYear()
+    const date = dd + '/' + mm + '/' + yyyy
+    this.props.createOrder(date)
+  },
+  updateOrderField (e) {
+    this.props.updateOrderField(e.target.name, e.target.value)
   }
 })
 
-CreateOrder.propTypes = {
-
-}
 const mapStateToProps = state => {
   return {
     users: state.users
@@ -39,8 +48,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createOrder: () => dispatch(createOrder()),
-    getUsers: () => dispatch(getUsers())
+    createOrder: (date) => dispatch(createOrder(date)),
+    getUsers: () => dispatch(getUsers()),
+    updateOrderField: (name, value) => dispatch(updateOrderField(name, value))
   }
 }
 

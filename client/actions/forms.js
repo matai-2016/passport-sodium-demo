@@ -40,3 +40,11 @@ export function confirmOrder (id) {
     id
   }
 }
+
+export function updateOrderField (key, value) {
+  return {
+    type: 'UPDATE_ORDER_FIELD',
+    key,
+    value
+  }
+}

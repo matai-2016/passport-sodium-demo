@@ -42,7 +42,7 @@ const CreateOrderItem = React.createClass({
           <input onChange={this.updateOrderItemField} type='number' name='sugars' min='0' max='4' />
           <h4>Additional Comments</h4>
           <input type='text' name='comments' onChange={this.updateOrderItemField} />
-          <Link to='/order/:id' />
+          <Link to={`/order/${id}`}><button onClick={this.handleClick}>Add coffee!</button></Link>
         </div>
       </div>
     )
@@ -62,6 +62,7 @@ const mapStateToProps = state => {
   return {
     modifiers: state.forms.modifiers,
     size: state.forms.size
+    
   }
 }
 
