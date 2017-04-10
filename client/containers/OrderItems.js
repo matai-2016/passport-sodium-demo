@@ -23,6 +23,8 @@ class OrderItems extends React.Component {
     }
     return (
       <div className='item'>
+        <h3>Hi</h3>
+        <Link to='/create_order_item'><button className='create-order-item-button'>Add coffee</button></Link>
         {order.order_items.map((orderItem, i) => {
           return (
             <div className='orderItem' key={i}>

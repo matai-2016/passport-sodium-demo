@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux'
 
 import auth from './auth'
-import quote from './quote'
 import orders from './orders'
 import forms from './forms'
 
@@ -9,7 +8,6 @@ import forms from './forms'
 // can be left split apart above
 const quotesApp = combineReducers({
   auth,
-  quote,
   orders,
   forms
 })

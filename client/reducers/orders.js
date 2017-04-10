@@ -2,6 +2,8 @@ const initialState = []
 
 export default function orders (state = initialState, action) {
   switch (action.type) {
+    case 'RECEIVE_USERS':
+      return action.users
     case 'RECEIVE_ORDERS':
       return action.orders
     case 'DELETE_ORDER':

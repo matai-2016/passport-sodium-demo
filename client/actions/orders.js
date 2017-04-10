@@ -79,3 +79,23 @@ export function orderItemDeleted (id) {
     id
   }
 }
+
+export function getUsers () {
+  return dispatch => {
+    return request
+    .get('/users')
+    .end((err, res) => {
+      if (err) {
+        return console.error(err.message, 'Get Users failed')
+      }
+      dispatch(receiveUsers(res.body))
+    })
+  }
+}
+
+export function receiveUsers (users) {
+  return {
+    type: 'RECEIVE_USERS',
+    users
+  }
+}

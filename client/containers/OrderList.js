@@ -19,6 +19,7 @@ class OrderList extends React.Component {
   render () {
     return (
       <div>
+        <Link to='/create_order'><button className='create-order-button'>Create new order</button></Link>
         {this.props.orders.map((order, i) => {
           return (
             <div className='order' key={i}>

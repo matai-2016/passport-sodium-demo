@@ -2,9 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { createOrder } from '../actions/orders.js'
+import { createOrder, getUsers } from '../actions/orders.js'
 
-const CreateOrder = React.CreateClass({
+const CreateOrder = React.createClass({
+  componentDidMount () {
+    this.props.getUsers()
+  },
   render () {
     return (
       <div className='create-order'>
@@ -14,9 +17,12 @@ const CreateOrder = React.CreateClass({
           <input type='time' name='pickup_time' onChange={this.updateOrderField} />
           <h4>Collector: </h4>
           <select name='collector_id' onChange={this.updateOrderField} defaultValue='Select collector'>
-
+            {this.props.users.map(user => {
+              return <option value={user.id}>{user.name}</option>
+            })}
           </select>
         </div>
+        <Link />
       </div>
     )
   }
@@ -33,7 +39,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createOrder: () => dispatch(createOrder())
+    createOrder: () => dispatch(createOrder()),
+    getUsers: () => dispatch(getUsers())
   }
 }
 

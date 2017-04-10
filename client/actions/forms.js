@@ -19,7 +19,7 @@ export function updateModifiers (value) {
 
 export function createOrderItem () {
   return (dispatch, getState) => {
-    const orderItem = getState().orderForm
+    const orderItem = getState().forms
     request
       .post('/order_items')
       .send(orderItem)
@@ -29,7 +29,7 @@ export function createOrderItem () {
           return
         }
         dispatch(getOrderItems())
-        dispatch(comfirmOrder(res.body.id))
+        dispatch(confirmOrder(res.body.id))
       })
   }
 }

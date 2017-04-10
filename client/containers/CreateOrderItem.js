@@ -2,16 +2,16 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { createOrderItem } from '../actions/orders.js'
+import { createOrderItem, updateModifiers, updateOrderItemField } from '../actions/forms.js'
 
-const CreateOrderItem = React.CreateClass({
+const CreateOrderItem = React.createClass({
   render () {
     return (
       <div className='create-order-item'>
         <h3>Add your coffee</h3>
         <div className='create-order-item-form'>
           <h4>Type: </h4>
-          <select name='type' onChange={this.updateOrderField} defaultValue='No Drink Selected'>
+          <select name='type' onChange={this.updateOrderItemField} defaultValue='No Drink Selected'>
             <option value='No Drink Selected'>Select drink</option>
             <option value='Mocha'>Mocha</option>
             <option value='Flat White'>Flat White</option>
@@ -29,9 +29,9 @@ const CreateOrderItem = React.CreateClass({
           </select>
           <h4>Size or Keep Cup</h4>
           <div className='sizeSelect'>
-            <input onChange={this.updateOrderField} type='radio' name='size' value='Small' checked={this.props.size === 'Small'} />Small
-            <input onChange={this.updateOrderField} type='radio' name='size' value='Large' checked={this.props.size === 'Large'} />Large
-            <input onChange={this.updateOrderField} type='radio' name='size' value='Keep Cup' checked={this.props.size === 'Keep Cup'} />Keep Cup
+            <input onChange={this.updateOrderItemField} type='radio' name='size' value='Small' checked={this.props.size === 'Small'} />Small
+            <input onChange={this.updateOrderItemField} type='radio' name='size' value='Large' checked={this.props.size === 'Large'} />Large
+            <input onChange={this.updateOrderItemField} type='radio' name='size' value='Keep Cup' checked={this.props.size === 'Keep Cup'} />Keep Cup
           </div>
           <h4>Modifiers</h4>
           <input onChange={this.updateModifiers} type='checkbox' name='modifiers' value='Soy' checked={this.props.modifiers.includes('Soy')} />Soy Milk
@@ -39,9 +39,10 @@ const CreateOrderItem = React.CreateClass({
           <input onChange={this.updateModifiers} type='checkbox' name='modifiers' value='Cinnamon' checked={this.props.modifiers.includes('Cinnamon')} />Cinnamon Sprinkles
           <input onChange={this.updateModifiers} type='checkbox' name='modifiers' value='Chocolate' checked={this.props.modifiers.includes('Chocolate')} />Chocolate Sprinkles
           <h4>Sugars</h4>
-          <input onChange={this.updateOrderField} type='number' name='sugars' min='0' max='4' />
+          <input onChange={this.updateOrderItemField} type='number' name='sugars' min='0' max='4' />
           <h4>Additional Comments</h4>
-          <input type='text' name='comments' onChange={this.updateOrderField} />
+          <input type='text' name='comments' onChange={this.updateOrderItemField} />
+          <Link to='/order/:id' />
         </div>
       </div>
     )
@@ -52,18 +53,15 @@ const CreateOrderItem = React.CreateClass({
   updateModifiers (evt) {
     this.props.updateModifiers(evt.target.value)
   },
-  updateOrderField (evt) {
-    this.props.updateOrderField(evt.target.name, evt.target.value)
+  updateOrderItemField (evt) {
+    this.props.updateOrderItemField(evt.target.name, evt.target.value)
   }
 })
 
-OrderListItem.propTypes = {
-
-}
 const mapStateToProps = state => {
   return {
-    modifiers: state.orderForm.modifiers,
-    size: state.orderForm.size
+    modifiers: state.forms.modifiers,
+    size: state.forms.size
   }
 }
 
@@ -71,12 +69,13 @@ const mapDispatchToProps = dispatch => {
   return {
     updateOrderItemField: (key, value) => {
       dispatch(updateOrderItemField(key, value))
-  },
-  updateModifiers: (value) => {
-    dispatch(updateModifiers(value))
-  },
-  createOrderItem: (orderItem) => {
-    dispatch(createOrderItem(orderItem))
+    },
+    updateModifiers: (value) => {
+      dispatch(updateModifiers(value))
+    },
+    createOrderItem: (orderItem) => {
+      dispatch(createOrderItem(orderItem))
+    }
   }
 }
 
