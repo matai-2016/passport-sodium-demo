@@ -12,15 +12,15 @@ body {
   background-color: #fdfdfd;
 }
 
+header {
+  background-color: #FFF;
+}
 
-#hero-img {
+#header-img {
     background-image: url('/beans.png');
     background-size: cover;
     background-repeat: no-repeat;
-}
-
-header {
-  background-color: #FFF;
+    margin-bottom: 1rem;
 }
 
 .header-text {
@@ -29,6 +29,14 @@ header {
   font-size: 4rem;
   text-shadow: 0px 0px 3px gray;
   font-weight: 600;
+}
+
+.no-text-decoration {
+  text-decoration: none !important;
+}
+
+.error {
+  color: red;
 }
 
 .footer {
@@ -42,16 +50,11 @@ header {
   border-top: 1px solid gray;
 }
 
-.error {
-  color: red;
-}
-
 .form-signin {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
 }
-
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
   margin-bottom: 10px;
@@ -77,10 +80,6 @@ header {
 }
 .form-signin input[type="password"] {
   margin-bottom: 10px;
-}
-
-.padding-top {
-  padding-top: 1rem;
 }
 
 .order-container {
