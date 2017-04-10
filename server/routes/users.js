@@ -48,7 +48,7 @@ router.post('/login',
       }
       if (!user) {
         return res.status(401).send({
-          message: 'Incorrect Username or Password'
+          message: 'Incorrect username or password.'
         })
       }
       req.logIn(user, function (err) {
@@ -82,7 +82,7 @@ function register (req, res, next) {
   users.exists(req.body.email)
     .then(exists => {
       if (exists) {
-        res.send({ message: 'User Exists', authenticated: false, email: null, id: null })
+        res.send({ message: 'User already exists', authenticated: false, email: null, id: null })
       }
 
       users.create(req.body.name, req.body.email, req.body.password, req.body.phone)

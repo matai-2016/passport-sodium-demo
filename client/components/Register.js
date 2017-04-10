@@ -2,20 +2,30 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { registerUser, updateRegisterForm, setRegisterError } from '../actions'
+import Header from './Header'
+import Footer from './Footer'
 
 class Register extends Component {
   render () {
     return (
       <div>
-        <input type='text' name='name' className='form-control' placeholder='name' onChange={this.handleChange.bind(this)} /><br />
-        <input type='text' name='email' className='form-control' placeholder='email' onChange={this.handleChange.bind(this)} /><br />
-        <input type='text' name='phone' className='form-control' placeholder='phone' onChange={this.handleChange.bind(this)} /><br />
-        <input type='password' name='password' className='form-control glowing-border' placeholder='Password' onChange={this.handleChange.bind(this)} /><br />
-        <input type='password' name='confirm' className='form-control glowing-border' placeholder='Confirm Password' onChange={this.handleChange.bind(this)} /><br /><br />
-        <button onClick={(event) => this.handleClick(event)} className='btn btn-primary'>
-          Submit
-        </button>
-        {this.props.registerErrorMessage && <p>{this.props.registerErrorMessage}</p>}
+        <Header />
+        <div className='form-signin'>
+          <h4 className='form-signin-heading'>Register</h4>
+          <input type='text' name='name' className='form-control' placeholder='name' onChange={this.handleChange.bind(this)} />
+          <input type='text' name='email' className='form-control' placeholder='email' onChange={this.handleChange.bind(this)} />
+          <input type='text' name='phone' className='form-control' placeholder='phone' onChange={this.handleChange.bind(this)} />
+          <input type='password' name='password' className='form-control' placeholder='Password' onChange={this.handleChange.bind(this)} />
+          <input type='password' name='confirm' className='form-control' placeholder='Confirm Password' onChange={this.handleChange.bind(this)} />
+          <button className='btn btn-default btn-primary' onClick={(event) => this.handleClick(event)}>
+            Submit
+          </button>
+          {this.props.registerErrorMessage && <p className='error padding-top'>{this.props.registerErrorMessage}</p>}
+          {this.props.message.includes('exists') &&
+            <p className='error padding-top'>{this.props.message}</p>
+          }
+        </div>
+        <Footer />
       </div>
     )
   }

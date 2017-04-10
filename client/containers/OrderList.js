@@ -18,11 +18,11 @@ class OrderList extends React.Component {
 
   render () {
     return (
-      <div>
-        <Link to='/create_order'><button className='create-order-button'>Create new order</button></Link>
+      <div className='container'>
+        <Link to='/create_order'><button className='btn btn-default btn-create'>Create new order</button></Link>
         {this.props.orders.map((order, i) => {
           return (
-            <div className='order' key={i}>
+            <div className='order-container' key={i}>
               <Order
                 id={order.id}
                 status={order.status}
@@ -30,10 +30,10 @@ class OrderList extends React.Component {
                 date={order.date}
                 pickupTime={order.pickupTime}
               />
-              <Link to={`./order/${order.id}`}><button className='view-order-button'>View Order</button></Link>
-              <button onClick={() => {
+              <Link to={`./order/${order.id}`}><button className='btn btn-default btn-primary view-order-button'>View Order</button></Link>
+              <Link to='#' onClick={() => {
                 this.handleClick(order.id)
-              }} >Delete Order</button>
+              }}><button className='btn btn-default btn-danger'>Delete Order</button></Link>
             </div>
           )
         })}
