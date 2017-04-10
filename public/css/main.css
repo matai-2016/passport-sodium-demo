@@ -1,5 +1,6 @@
 * {
-  font-family: 'open-sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
 
 html {
@@ -8,7 +9,7 @@ html {
 
 body {
   height: 100%;
-  background-color: #e7e7e7;
+  background-color: #fdfdfd;
 }
 
 
@@ -32,13 +33,13 @@ header {
 
 .footer {
   position: relative;
-  margin-top: 150px;
+  margin-top: 300px;
   bottom: 0;
   left: 0;
   right: 0;
   padding-top: 20px;
   color: #777;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid gray;
 }
 
 .error {
@@ -82,10 +83,23 @@ header {
   padding-top: 1rem;
 }
 
-.order {
+.order-container {
   margin: 2rem;
-  background-color: white;
+  background-color: rgba(51, 44, 42, .84);
+  color: white;
   box-shadow: 0 2px 2px gray;
   padding: 1rem;
   border-radius: 7px;
+}
+
+.login-buttons {
+  background-color: #fdfdfd;
+}
+
+.btn {
+  margin: 0 .5rem 0 0;
+}
+
+.btn-create {
+  margin: 0 0 0 2rem;
 }
