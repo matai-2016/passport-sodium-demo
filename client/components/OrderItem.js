@@ -1,14 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 const OrderItem = (props) => {
   return (
-    <div className='.'>
+    <div className='order-item'>
+      <h3>Customer: {props.user.name}</h3>
       <h3>Type: {props.type}</h3>
-      <p>Pickup Time: {props.pickupTime}</p>
-      <p>Collector: {props.collectorId}</p>
-      <p>Status: {props.status}</p>
-      <Link to={`/order_items/${props.id}`}>View Order</Link>
+      <p>Sugars: {props.sugars}</p>
+      <p>Modifiers: {props.modifiers}</p>
+      <p>Size: {props.size}</p>
+      <p>Comments: {props.comments}</p>
     </div>
   )
 }
