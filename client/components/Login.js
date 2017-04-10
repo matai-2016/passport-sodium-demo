@@ -13,16 +13,19 @@ class Login extends Component {
     return (
       <div>
         <Header />
-        <input type='text' name='email' className='form-control' placeholder='email' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
-        <input type='password' name='password' className='form-control' placeholder='Password' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
-        <button onClick={(event) => this.handleClick(event)} className='btn btn-primary'>
-          Login
-        </button>
-
-        {this.props.message.includes('Incorrect') &&
-          <p>{errorMessage}</p>
-        }
-        <p>New to Bean-Go? Register <Link to='/register'>here</Link></p>
+        <div className='container'>
+          <div className='form-signin'>
+            <input type='text' name='email' className='form-control' placeholder='email' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
+            <input type='password' name='password' className='form-control' placeholder='Password' onChange={(e) => this.props.updateLoginForm(e.target.name, e.target.value)} />
+            <button onClick={(event) => this.handleClick(event)} className='btn btn-primary'>
+            Login
+            </button>
+            <p className='padding-top'>New to BeanGo? Register <Link to='/register'>here</Link></p>
+            {this.props.message.includes('Incorrect') &&
+            <p className='error'>{errorMessage}</p>
+            }
+          </div>
+        </div>
         <Footer />
       </div>
     )
